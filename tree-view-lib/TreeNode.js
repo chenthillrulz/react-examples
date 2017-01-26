@@ -13,31 +13,6 @@ class TreeNode extends React.Component {
         this.props.onSelectionChangedCallBack (this.props.node);
     }
 
-    renderChildren () {
-        var node = this.props.node;
-        const expand = node.expanded;
-
-        if (expand) {
-            let children = this.props.node.children;
-            if (!Array.isArray(children) || !children.length) {return;}
-            //console.log ("rendering children");
-
-            return(
-                <ul>
-                    {children.map((child, index) =>
-                        <TreeNode
-                            onSelectionChangedCallBack={this.props.onSelectionChangedCallBack}
-                            selectedNodeId={this.props.selectedNodeId}
-                            key={child.id}
-                            node={child}
-                            options={this.props.options}
-                        />
-                    )}
-                </ul>
-            );
-        }
-    }
-
     render(){
         var node = this.props.node;
         var options = this.props.options;
@@ -63,17 +38,19 @@ class TreeNode extends React.Component {
             "selected": options.highlightSelected && this.props.selectedNodeId == node.id
         });
 
-        return  (
+        var  rc = null;
+		if (this.props.renderedChildren && this.props.renderedChildren.length)
+			rc = <ul>{this.props.renderedChildren}</ul>
+		
+		return  (
 
                 <li onClick={this.onClick.bind(this, node.id)}>
                     <div className={nodeType}>
                         {expandCollapseIcon}
                         <label className={nodeClassNames}>{this.props.node.name}</label>
                     </div>
-                    {this.renderChildren()}
+                    {rc}
                 </li>
-
-
         );
     }
 }

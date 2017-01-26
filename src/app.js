@@ -1,14 +1,23 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {TreeContainer} from '../tree-view-lib/index';
+import data from '../tree-view-lib/data';
 
-class Welcome extends React.Component {
-	render () {
-		return (
-			<h1> Welcome {this.props.name}! Your are awesome!!</h1>
-				);
-	
-	}
+class DemoTree extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+       render(){
+           return  (<TreeContainer
+                    data={data}
+                    highlightSelected={true}
+           />);
+
+    }
 }
 
-const element = document.getElementById('root');
-ReactDOM.render (<Welcome name={"buddy"}/>, element);
+const content = document.getElementById('root');
+ReactDOM.render(<DemoTree/>, content);

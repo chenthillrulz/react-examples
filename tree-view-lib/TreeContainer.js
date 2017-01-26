@@ -32,6 +32,27 @@ class TreeContainer extends React.Component {
         });
     }
 
+	recursivelyRenderChildren (node, options) {
+		var children = [];
+
+		if (Array.isArray(node.children) && node.children.length && node.expanded) {
+			node.children.forEach ((child) => {
+					var rn = this.recursivelyRenderChildren (child, options);
+					children.push (rn);
+				});
+		}
+
+		const element = <TreeNode node={node}
+                            key={node.id}
+							renderedChildren={children}
+                            onSelectionChangedCallBack={this.onSelectionChanged.bind(this)}
+                            selectedNodeId={this.state.selectedNodeId}
+                            options={options}
+                        />;
+
+		return element;
+	}
+
     render () {
         let data = this.props.data;
         //console.log("rendering tree container");
@@ -53,16 +74,9 @@ class TreeContainer extends React.Component {
 
         return(
             <div className="treeview">
-                <ul>
                     {data.map((node, index) =>
-                        <TreeNode node={node}
-                            key={node.id}
-                            onSelectionChangedCallBack={this.onSelectionChanged.bind(this)}
-                            selectedNodeId={this.state.selectedNodeId}
-                            options={options}
-                        />
+						this.recursivelyRenderChildren (node, options)
                     )}
-                </ul>
             </div>
         );
     }
