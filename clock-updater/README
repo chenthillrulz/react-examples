@@ -1,0 +1,3 @@
+Uses the state to update the time.
+Uses member functions componentDidMount and componentWillunmount to set/clear the interval function.
+Uses a simple click handler demo.
